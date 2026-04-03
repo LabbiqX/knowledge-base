@@ -1,0 +1,55 @@
+---
+layout: default
+title: "Arama"
+---
+
+<h1>Arama</h1>
+
+<input type="text" id="search-input" class="search-box" placeholder="Özet ara... (başlık, kategori, içerik)" autofocus>
+
+<div id="search-results"></div>
+
+<div id="all-summaries" style="display:none">
+{% assign sorted = site.summaries | sort: "date" | reverse %}
+{% for s in sorted %}
+<div class="search-item" data-title="{{ s.title | downcase }}" data-category="{{ s.category | downcase }}" data-content="{{ s.excerpt | strip_html | downcase | truncate: 300 }}">
+  <div class="card">
+    <a href="{{ s.url | relative_url }}">
+      <div class="card-title">{{ s.title }}</div>
+      <div class="card-meta">
+        {% if s.date %}📅 {{ s.date | date: "%Y-%m-%d" }} · {% endif %}
+        {% if s.category %}<span class="badge">{{ s.category }}</span>{% endif %}
+      </div>
+    </a>
+  </div>
+</div>
+{% endfor %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('search-input');
+  const allItems = document.getElementById('all-summaries');
+  const results = document.getElementById('search-results');
+  const items = allItems.querySelectorAll('.search-item');
+
+  // Show all initially
+  results.innerHTML = allItems.innerHTML;
+  
+  input.addEventListener('input', function() {
+    const query = this.value.toLowerCase().trim();
+    if (!query) {
+      results.innerHTML = allItems.innerHTML;
+      return;
+    }
+    const terms = query.split(/\s+/);
+    let html = '';
+    items.forEach(function(item) {
+      const searchable = item.dataset.title + ' ' + item.dataset.category + ' ' + item.dataset.content;
+      const match = terms.every(function(t) { return searchable.includes(t); });
+      if (match) html += item.innerHTML;
+    });
+    results.innerHTML = html || '<p style="color:var(--muted)">Sonuç bulunamadı.</p>';
+  });
+});
+</script>

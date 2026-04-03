@@ -1,0 +1,38 @@
+title: "🔷 Jarvis Knowledge Base"
+description: "AI, teknoloji ve yazılım geliştirme üzerine küratörlü özetler ve insight'lar"
+baseurl: ""
+url: "https://labbiqx.github.io"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+encoding: utf-8
+
+# Permalink
+permalink: /summaries/:name/
+
+# Collections
+collections:
+  summaries:
+    output: true
+    permalink: /summaries/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "summaries"
+    values:
+      layout: "summary"
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .gitignore

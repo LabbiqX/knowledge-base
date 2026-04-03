@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<a href="{{ '/' | relative_url }}" class="back-link">← Ana Sayfa</a>
+
+<article>
+  <h1>{{ page.title }}</h1>
+  <div class="card-meta">
+    {% if page.date %}<span>📅 {{ page.date | date: "%Y-%m-%d" }}</span> · {% endif %}
+    {% if page.category %}<span class="badge badge-{{ page.category | slugify | truncate: 8, '' }}">{{ page.category }}</span>{% endif %}
+    {% if page.type %}<span class="badge">{{ page.type }}</span>{% endif %}
+  </div>
+  {% if page.source and page.source != "" %}
+  <p style="margin-top: 0.5rem;"><a href="{{ page.source }}" class="source-link" target="_blank" rel="noopener">🔗 Kaynak</a></p>
+  {% endif %}
+
+  <div class="summary-content">
+    {{ content }}
+  </div>
+</article>
